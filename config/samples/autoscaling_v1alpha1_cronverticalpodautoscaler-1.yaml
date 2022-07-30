@@ -1,0 +1,55 @@
+apiVersion: autoscaling.zoublog.com/v1alpha1
+kind: CronVerticalPodAutoscaler
+metadata:
+  name: cronvpa-1
+spec:
+  initialJob: "Los_Angeles-Test"
+  keepUpdated: true
+  jobs:
+  - name: "Los_Angeles-Test"
+    schedules: 
+    - "0 */2 * * *"
+    suspend: true
+    timeZone: "America/Los_Angeles"
+  - name: "HongKong-Auto"
+    schedules: 
+    - "* */5 * * *"
+    - "*/13 * * * *"
+    timeZone: "Asia/Hong_Kong"
+    suspend: false
+    patchVPA:
+      updatePolicy:
+        updateMode: "Auto"
+  - name: "London Initial"
+    schedules:
+    - "*/17 * * * *"
+    - "21 */3 * * *"
+    excludedDates:
+    - "* * * * 6"
+    timeZone: "Europe/London"
+    suspend: false
+    patchVPA:
+      updatePolicy: 
+        updateMode: "Initial"
+      resourcePolicy:
+        containerPolicies:
+          - containerName: '*'
+            controlledValues: RequestsAndLimits
+  baseVPA:
+    targetRef:
+      apiVersion: "apps/v1"
+      kind: Deployment
+      name: deploy1
+    updatePolicy: 
+      updateMode: "Off"
+    resourcePolicy:
+      containerPolicies:
+        - containerName: '*'
+          minAllowed:
+            cpu: 10m
+            memory: 50Mi
+          maxAllowed:
+            cpu: 1
+            memory: 500Mi
+          controlledResources: ["cpu", "memory"]
+          controlledValues: RequestsOnly

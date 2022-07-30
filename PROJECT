@@ -1,0 +1,16 @@
+domain: zoublog.com
+layout:
+- go.kubebuilder.io/v3
+projectName: cronvpa
+repo: cronvpa
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: zoublog.com
+  group: autoscaling
+  kind: CronVerticalPodAutoscaler
+  path: cronvpa/api/v1alpha1
+  version: v1alpha1
+version: "3"
