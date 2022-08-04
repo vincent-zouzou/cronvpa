@@ -29,7 +29,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: my-docker-hub-namespace/my-docker-hub-repository
+          images: vincentzouzou/cronvpa
 
      # - name: Build and push Docker image
      #   run: make docker-build docker-push IMG=<some-registry>/cronvpa:tag
