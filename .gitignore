@@ -24,5 +24,7 @@ testbin/*
 *.swo
 *~
 
-# another
+# anothers
 **.filerun.versioning
+**.DS_Store
+**.debug
