@@ -29,15 +29,23 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: vincentzouzou/cronvpa
+          images: ${{ secrets.DOCKERHUB_USER }}/cronvpa
+
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: 8
+          format: 'YYYY-MM-DD'
 
      # - name: Build and push Docker image
      #   run: make docker-build docker-push IMG=<some-registry>/cronvpa:tag
-        
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}-${{ steps.time.outputs.time }}
           labels: ${{ steps.meta.outputs.labels }}
+
